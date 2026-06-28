@@ -1,0 +1,64 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+
+      <h3 class="mb-4 text-center fw-bold">Create a New Listing</h3>
+
+      <form
+    action="/listings"
+    method="POST"
+    enctype="multipart/form-data"
+    class="needs-validation"
+    novalidate>
+
+        <!-- TITLE -->
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input name="listing[title]" type="text" class="form-control" required />
+        </div>
+
+        <!-- IMAGE -->
+        <div class="mb-3">
+
+        <label class="form-label">
+            Upload Image
+              </label>
+
+              <input
+             type="file"
+            name="listing[image]"
+            class="form-control"
+           accept="image/*"
+             required>
+
+              </div>
+
+        <!-- PRICE -->
+        <div class="mb-3">
+          <label class="form-label">Price (₹)</label>
+          <input name="listing[price]" type="number" class="form-control" required />
+        </div>
+
+        <!-- LOCATION -->
+        <div class="mb-3">
+          <label class="form-label">Location</label>
+          <input name="listing[location]" type="text" class="form-control" required />
+        </div>
+
+        <!-- COUNTRY -->
+        <div class="mb-3">
+          <label class="form-label">Country</label>
+          <input name="listing[country]" type="text" class="form-control" required />
+        </div>
+
+        <div class="d-grid mt-3">
+          <button class="btn airbnb-btn">Add Listing</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

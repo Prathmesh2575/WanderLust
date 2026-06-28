@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand brand-logo" href="/listings">
+    <i class="fa-solid fa-compass"></i>
+    <span>WanderLust</span>
+</a>
+
+<button
+class="navbar-toggler"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#navbarNav">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse" id="navbarNav">
+
+<ul class="navbar-nav me-auto ms-4">
+
+<li class="nav-item">
+    <a class="nav-link" href="/listings">Home</a>
+</li>
+
+<% if (currUser) { %>
+
+<li class="nav-item">
+    <a class="nav-link" href="/listings/new">
+        Become a Host
+    </a>
+</li>
+
+<% } %>
+
+</ul>
+
+<form class="search-box mx-auto">
+
+<div class="input-group">
+
+<input
+type="text"
+class="form-control"
+placeholder="Search destinations">
+
+<button class="btn search-btn">
+<i class="fa-solid fa-magnifying-glass"></i>
+</button>
+
+</div>
+
+</form>
+
+<ul class="navbar-nav ms-auto align-items-center">
+
+<% if (!currUser) { %>
+
+<li class="nav-item">
+    <a href="/users/login" class="nav-link">
+        Login
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="/users/signup"
+    class="btn btn-danger rounded-pill px-4 ms-2">
+        Signup
+    </a>
+</li>
+
+<% } else { %>
+
+<li class="nav-item">
+    <span class="nav-link">
+        Hi,
+        <strong><%= currUser.username %></strong>
+    </span>
+</li>
+
+<li class="nav-item">
+    <a href="/users/logout"
+    class="btn btn-outline-danger rounded-pill ms-2">
+        Logout
+    </a>
+</li>
+
+<% } %>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>

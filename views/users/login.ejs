@@ -1,0 +1,84 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="airbnb-form shadow-lg p-4">
+
+                <h2 class="text-center mb-4">Login</h2>
+
+                <form
+                    action="/users/login"
+                    method="POST"
+                    class="needs-validation"
+                    novalidate
+                >
+
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Username is required.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Password is required.
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button class="btn airbnb-btn">
+                            Login
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+(() => {
+    'use strict';
+
+    const forms = document.querySelectorAll('.needs-validation');
+
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add('was-validated');
+
+        }, false);
+    });
+
+})();
+</script>

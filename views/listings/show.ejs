@@ -1,0 +1,366 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+
+    <h2 class="text-center fw-bold mb-4">
+        <%= listing.title %>
+    </h2>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 rounded-4 overflow-hidden">
+
+                <!-- Image -->
+                <img
+                    src="<%= listing.image?.url || 'https://via.placeholder.com/800x500' %>"
+                    class="card-img-top detail-img"
+                    alt="<%= listing.title %>"
+                >
+
+                <div class="card-body p-4">
+
+                    <p class="text-muted">
+                        📍 <%= listing.location %>, <%= listing.country %>
+                    </p>
+
+                    <p>
+                        <strong>Hosted by :</strong>
+
+                        <% if(listing.owner){ %>
+
+                            <%= listing.owner.username %>
+
+                        <% } else { %>
+
+                            Unknown Host
+
+                        <% } %>
+                    </p>
+
+                    <hr>
+
+                    <p>
+                        <%= listing.description %>
+                    </p>
+
+                    <h4 class="text-danger">
+                        ₹ <%= listing.price.toLocaleString("en-IN") %> / night
+                    </h4>
+
+                    <% if(currUser && listing.owner && currUser._id.equals(listing.owner._id)){ %>
+
+                    <div class="mt-4 d-flex gap-3">
+
+                        <a
+                            href="/listings/<%= listing._id %>/edit"
+                            class="btn btn-warning"
+                        >
+                            Edit
+                        </a>
+
+                        <form
+                            action="/listings/<%= listing._id %>?_method=DELETE"
+                            method="POST"
+                        >
+
+                            <button class="btn btn-danger">
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                    <% } %>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MAP -->
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-lg-8">
+
+            <h4 class="mb-3">
+                Where you'll be
+            </h4>
+
+            <div id="map"></div>
+
+        </div>
+
+    </div>
+
+    <!-- REVIEW FORM -->
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-lg-8">
+
+            <div class="review-box">
+
+                <% if(currUser){ %>
+
+                <h4 class="mb-4">
+                    Leave a Review
+                </h4>
+
+                <form
+                    action="/listings/<%= listing._id %>/reviews"
+                    method="POST"
+                    class="needs-validation"
+                    novalidate
+                >
+
+                    <!-- Rating -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Rating
+                        </label>
+
+                        <div class="star-rating">
+
+                            <input
+                                type="radio"
+                                id="star5"
+                                name="review[rating]"
+                                value="5"
+                                required
+                            >
+                            <label for="star5">★</label>
+
+                            <input
+                                type="radio"
+                                id="star4"
+                                name="review[rating]"
+                                value="4"
+                            >
+                            <label for="star4">★</label>
+
+                            <input
+                                type="radio"
+                                id="star3"
+                                name="review[rating]"
+                                value="3"
+                            >
+                            <label for="star3">★</label>
+
+                            <input
+                                type="radio"
+                                id="star2"
+                                name="review[rating]"
+                                value="2"
+                            >
+                            <label for="star2">★</label>
+
+                            <input
+                                type="radio"
+                                id="star1"
+                                name="review[rating]"
+                                value="1"
+                            >
+                            <label for="star1">★</label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Comment -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Comment
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            rows="4"
+                            name="review[comment]"
+                            required
+                        ></textarea>
+
+                        <div class="invalid-feedback">
+                            Please enter your review.
+                        </div>
+
+                    </div>
+
+                    <button class="btn airbnb-btn w-100">
+                        Submit Review
+                    </button>
+
+                </form>
+
+                <% } else { %>
+
+                <div class="alert alert-warning">
+
+                    Please
+                    <a href="/users/login">
+                        Login
+                    </a>
+                    to write a review.
+
+                </div>
+
+                <% } %>
+
+                <hr class="my-5">
+
+                <h4>
+                    All Reviews
+                </h4>
+                                <% if(listing.reviews.length === 0){ %>
+
+                    <p class="text-muted mt-3">
+                        No reviews yet.
+                    </p>
+
+                <% } %>
+
+                <div class="row mt-4">
+
+                    <% for(let review of listing.reviews){ %>
+
+                    <div class="col-md-6 mb-3">
+
+                        <div class="card review-card h-100">
+
+                            <div class="card-body">
+
+                                <h6 class="fw-bold">
+
+                                    <% if(review.author){ %>
+
+                                        <i class="fa-solid fa-user"></i>
+                                        <%= review.author.username %>
+
+                                    <% } else { %>
+
+                                        Anonymous
+
+                                    <% } %>
+
+                                </h6>
+
+                                <div class="mb-2">
+
+                                    <% for(let i=1;i<=5;i++){ %>
+
+                                        <% if(i<=review.rating){ %>
+
+                                            <i class="fa-solid fa-star text-warning"></i>
+
+                                        <% }else{ %>
+
+                                            <i class="fa-regular fa-star text-warning"></i>
+
+                                        <% } %>
+
+                                    <% } %>
+
+                                </div>
+
+                                <p>
+                                    <%= review.comment %>
+                                </p>
+
+                                <% if(currUser && review.author && currUser._id.equals(review.author._id)){ %>
+
+                                <form
+                                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                    method="POST"
+                                >
+
+                                    <button class="btn btn-danger btn-sm">
+                                        Delete Review
+                                    </button>
+
+                                </form>
+
+                                <% } %>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <% } %>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Leaflet CSS -->
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+
+const map = L.map("map").setView([18.5204,73.8567],12);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+
+    attribution:"© OpenStreetMap"
+
+}).addTo(map);
+
+L.marker([18.5204,73.8567])
+.addTo(map)
+.bindPopup("<b><%= listing.location %></b>")
+.openPopup();
+
+</script>
+
+<script>
+
+(() => {
+
+    'use strict';
+
+    const forms = document.querySelectorAll('.needs-validation');
+
+    Array.from(forms).forEach(form => {
+
+        form.addEventListener('submit', event => {
+
+            if (!form.checkValidity()) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+            }
+
+            form.classList.add('was-validated');
+
+        }, false);
+
+    });
+
+})();
+
+</script>

@@ -1,0 +1,10 @@
+prathmeshukirade123_db_user
+
+yHK8GXltDs2yvuHV
+
+Prathmesh12345
+
+
+mongodb+srv://<db_username>:yHK8GXltDs2yvuHV@cluster0.jyn7yb0.mongodb.net/
+
+mongodb+srv://<db_username>:yHK8GXltDs2yvuHV@cluster0.jyn7yb0.mongodb.net/?appName=Cluster0
